@@ -121,7 +121,6 @@
   <div class="container">
     <div class="card">
 
-      <!-- LOGO DO PUNISHMENT -->
       <img src="./logo.png" alt="Punishment Logo" class="logo" />
 
       <h1>Punishment</h1>
@@ -162,20 +161,20 @@
 
   <script>
     async function loadStatus() {
+      const el = document.getElementById('bot-status');
+
       try {
         const res = await fetch('https://punishment.squareweb.app/bot/status');
         const data = await res.json();
-        const el = document.getElementById('bot-status');
 
         if (data.online) {
-          el.textContent = 'Online • Operando normalmente';
+          el.textContent = 'Online';
           el.style.color = 'var(--online)';
         } else {
           el.textContent = 'Offline';
           el.style.color = 'var(--offline)';
         }
       } catch {
-        const el = document.getElementById('bot-status');
         el.textContent = 'Indisponível';
         el.style.color = 'var(--unknown)';
       }
