@@ -219,7 +219,7 @@ async function loadStatus() {
 const dot = document.querySelector('.status-dot');
 const text = document.getElementById('bot-text');
   try {
-    const res = await fetch(&#39;[https:
+    const res = await fetch(&#39;[https://punishment.squareweb.app/bot/status](https://punishment.squareweb.app/bot/status)&#39;);
     const data = await res.json();
 
     if (data.online) {
@@ -244,4 +244,3 @@ setInterval(loadStatus, 10000);
 </script>
 </body>
 </html>
-
