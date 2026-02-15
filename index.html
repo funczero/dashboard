@@ -7,11 +7,11 @@
 
   <style>
     :root {
-      --bg-dark: #0a0a0c;
-      --bg-gradient: radial-gradient(circle at center, #111116 0%, #0a0a0c 100%);
-      --primary-red: #ff3b3b;
-      --text-main: #ffffff;
-      --text-muted: #a1a1aa;
+      --bg: #0c0c10;
+      --card: #111116;
+      --primary: #ff3b3b;
+      --text: #ffffff;
+      --muted: #9ca3af;
       --online: #43b581;
       --offline: #f04747;
       --unknown: #faa61a;
@@ -24,126 +24,84 @@
       font-family: 'Inter', system-ui, -apple-system, sans-serif;
     }
 
-    html, body {
-      height: 100%;
-      width: 100%;
-      overflow: hidden;
-    }
-
     body {
-      background-color: var(--bg-dark);
-      background-image:
-        var(--bg-gradient),
-        radial-gradient(circle, rgba(255,255,255,0.05) 1px, transparent 1px);
-      background-size: 100% 100%, 40px 40px;
-      color: var(--text-main);
+      background: var(--bg);
+      color: var(--text);
       display: flex;
-      align-items: center;
       justify-content: center;
+      align-items: center;
+      min-height: 100vh;
     }
 
     .container {
       width: 100%;
-      max-width: 720px;
-      padding: 24px;
-      z-index: 1;
-    }
-
-    .card {
-      background: transparent;
-      padding: 40px 32px;
+      max-width: 640px;
+      padding: 40px 20px;
       text-align: center;
-      width: 100%;
     }
 
     .logo {
-      width: 70px;
-      height: 70px;
-      object-fit: contain;
-      margin-bottom: 24px;
-      border-radius: 22px;
+      width: 64px;
+      height: 64px;
+      border-radius: 18px;
+      margin-bottom: 20px;
     }
 
     h1 {
-      font-size: 2.6rem;
+      font-size: 2.4rem;
       font-weight: 800;
-      margin-bottom: 16px;
-      color: var(--primary-red);
-      letter-spacing: -1.5px;
+      color: var(--primary);
+      margin-bottom: 12px;
     }
 
     .subtitle {
-      color: var(--text-muted);
-      margin-bottom: 32px;
-      line-height: 1.6;
-      font-size: 1.1rem;
-      max-width: 500px;
-      margin-left: auto;
-      margin-right: auto;
+      color: var(--muted);
+      margin-bottom: 28px;
+      font-size: 1rem;
     }
 
     .btn-add {
       display: inline-block;
-      background-color: var(--primary-red);
+      background: var(--primary);
       color: white;
+      padding: 10px 24px;
+      border-radius: 6px;
       text-decoration: none;
-      padding: 12px 28px;
-      border-radius: 8px;
       font-weight: 600;
-      font-size: 1rem;
-      margin-bottom: 32px;
-      transition: all 0.3s ease;
-      box-shadow: 0 4px 15px rgba(254, 56, 56, 0.15);
+      margin-bottom: 30px;
+      transition: 0.2s ease;
     }
 
     .btn-add:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 6px 20px rgba(254, 56, 56, 0.25);
+      opacity: 0.9;
+      transform: translateY(-1px);
     }
 
     .status {
-      font-weight: 500;
-      margin-bottom: 10px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 5px;
-      font-size: 9px;
+      font-size: 0.75rem;
       text-transform: uppercase;
       letter-spacing: 1px;
+      margin-bottom: 30px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 8px;
     }
 
     .status-dot {
-      position: relative;
-      display: inline-block;
       width: 8px;
       height: 8px;
       border-radius: 50%;
     }
 
-    .status-dot::after {
-      content: "";
-      position: absolute;
-      inset: 0;
-      border-radius: 50%;
-      background-color: inherit;
-      animation: pulse-ring 1.2s ease-out infinite;
-      opacity: 0.4;
-    }
-
-    @keyframes pulse-ring {
-      0% { transform: scale(1); opacity: 0.5; }
-      100% { transform: scale(2); opacity: 0; }
-    }
-
-    /* ===== Guild Carousel ===== */
+    /* ===== Guild Section ===== */
 
     .guild-carousel {
-      margin-top: 20px;
-      height: 120px;
+      height: 110px;
       display: flex;
       align-items: center;
       justify-content: center;
+      margin-bottom: 40px;
     }
 
     .guild-card {
@@ -151,112 +109,93 @@
       flex-direction: column;
       align-items: center;
       gap: 10px;
-      animation: fadeGuild 0.5s ease;
+      animation: fade 0.4s ease;
     }
 
     .guild-card img {
-      width: 70px;
-      height: 70px;
+      width: 64px;
+      height: 64px;
       border-radius: 50%;
       object-fit: cover;
-      box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+      background: var(--card);
     }
 
     .guild-card span {
-      font-size: 0.9rem;
-      color: var(--text-muted);
-      max-width: 200px;
-      text-align: center;
+      font-size: 0.85rem;
+      color: var(--muted);
+      max-width: 220px;
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
     }
 
-    @keyframes fadeGuild {
-      from { opacity: 0; transform: translateY(8px); }
+    @keyframes fade {
+      from { opacity: 0; transform: translateY(6px); }
       to { opacity: 1; transform: translateY(0); }
     }
 
     .links {
       display: flex;
       justify-content: center;
-      gap: 24px;
-      margin: 32px 0;
+      gap: 20px;
     }
 
     .link {
-      color: var(--text-main);
+      color: var(--muted);
       text-decoration: none;
-      font-weight: 500;
-      font-size: 1rem;
-      opacity: 0.8;
-      transition: all .3s ease;
+      font-size: 0.9rem;
+      transition: 0.2s ease;
     }
 
     .link:hover {
-      color: var(--primary-red);
-      opacity: 1;
-      transform: translateY(-2px);
+      color: var(--primary);
     }
 
     footer {
-      position: absolute;
-      bottom: 30px;
-      width: 100%;
-      text-align: center;
-      font-size: 0.8rem;
-      color: #333;
-    }
-
-    @media (max-width: 480px) {
-      h1 { font-size: 2.5rem; }
-      .subtitle { font-size: 1rem; }
-      .links { flex-direction: column; gap: 15px; }
-      .btn-add { width: 100%; }
+      position: fixed;
+      bottom: 20px;
+      font-size: 0.75rem;
+      color: #444;
     }
   </style>
 </head>
 
 <body>
   <div class="container">
-    <div class="card">
-      <img src="./logo.png" alt="Punishment Logo" class="logo" />
+    <img src="./logo.png" class="logo" />
 
-      <h1>Punishment</h1>
-      <p class="subtitle">
-        Moderação avançada para manter seu servidor seguro e organizado.
-      </p>
+    <h1>Punishment</h1>
+    <p class="subtitle">
+      Moderação avançada para manter seu servidor seguro.
+    </p>
 
-      <a href="https://punbot.xyz/invite" class="btn-add">
-        Me Adicione
-      </a>
+    <a href="https://punbot.xyz/invite" class="btn-add">
+      Me Adicione
+    </a>
 
-      <p class="status">
-        <span id="bot-status" style="display: flex; align-items: center; gap: 8px;">
-          <span class="status-dot" style="background-color: var(--unknown)"></span>
-          <span id="bot-text" style="color: var(--text-muted);">Verificando...</span>
-        </span>
-      </p>
+    <div class="status">
+      <div class="status-dot" id="status-dot" style="background: var(--unknown)"></div>
+      <span id="bot-text" style="color: var(--muted)">Verificando...</span>
+    </div>
 
-      <!-- Guild Carousel -->
-      <div class="guild-carousel">
-        <div id="guild-display"></div>
-      </div>
+    <!-- Guild Carousel -->
+    <div class="guild-carousel">
+      <div id="guild-display"></div>
+    </div>
 
-      <div class="links">
-        <a href="./terms" class="link">Termos de Uso</a>
-        <a href="./privacy" class="link">Política de Privacidade</a>
-      </div>
+    <div class="links">
+      <a href="./terms" class="link">Termos</a>
+      <a href="./privacy" class="link">Privacidade</a>
     </div>
   </div>
 
   <footer>
-    © 2026 Punishment. Todos os direitos reservados.
+    © 2026 Punishment
   </footer>
 
   <script>
     async function loadStatus() {
-      const dot = document.querySelector('.status-dot');
+      const dot = document.getElementById('status-dot');
       const text = document.getElementById('bot-text');
 
       try {
@@ -264,16 +203,16 @@
         const data = await res.json();
 
         if (data.online) {
-          dot.style.backgroundColor = 'var(--online)';
+          dot.style.background = 'var(--online)';
           text.textContent = 'Online';
           text.style.color = 'var(--online)';
         } else {
-          dot.style.backgroundColor = 'var(--offline)';
+          dot.style.background = 'var(--offline)';
           text.textContent = 'Offline';
           text.style.color = 'var(--offline)';
         }
       } catch {
-        dot.style.backgroundColor = 'var(--unknown)';
+        dot.style.background = 'var(--unknown)';
         text.textContent = 'Indisponível';
         text.style.color = 'var(--unknown)';
       }
@@ -288,12 +227,17 @@
         let index = 0;
         const container = document.getElementById('guild-display');
 
+        function getIconUrl(guild) {
+          if (!guild.icon) return './logo.png';
+          return `https://cdn.discordapp.com/icons/${guild.id}/${guild.icon}.png?size=256`;
+        }
+
         function showGuild() {
           const guild = guilds[index];
 
           container.innerHTML = `
             <div class="guild-card">
-              <img src="${guild.icon || './logo.png'}" alt="${guild.name}">
+              <img src="${getIconUrl(guild)}" alt="${guild.name}">
               <span>${guild.name}</span>
             </div>
           `;
@@ -302,7 +246,7 @@
         }
 
         showGuild();
-        setInterval(showGuild, 3000);
+        setInterval(showGuild, 3500);
 
       } catch (err) {
         console.error('Erro ao carregar guilds');
