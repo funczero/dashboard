@@ -8,13 +8,16 @@
   <style>
     :root {
       --bg-dark: #0a0a0c;
-      --bg-gradient: radial-gradient(circle at center, #111116 0%, #0a0a0c 100%);
+      --bg-gradient: radial-gradient(circle at center, #16161d 0%, #0a0a0c 100%);
       --primary-red: #ff3b3b;
+      --primary-red-hover: #ff5c5c;
       --text-main: #ffffff;
       --text-muted: #a1a1aa;
-      --online: #43b581;
-      --offline: #f04747;
-      --unknown: #faa61a;
+      --card-bg: rgba(255, 255, 255, 0.03);
+      --card-border: rgba(255, 255, 255, 0.06);
+      --online: #10b981; /* Verde mais moderno */
+      --offline: #ef4444;
+      --unknown: #f59e0b;
     }
 
     * {
@@ -27,201 +30,233 @@
     html, body {
       height: 100%;
       width: 100%;
-      overflow: hidden;
+      overflow-x: hidden;
     }
 
     body {
       background-color: var(--bg-dark);
       background-image:
         var(--bg-gradient),
-        radial-gradient(circle, rgba(255,255,255,0.05) 1px, transparent 1px);
-      background-size: 100% 100%, 40px 40px;
+        radial-gradient(circle, rgba(255,255,255,0.03) 1px, transparent 1px);
+      background-size: 100% 100%, 32px 32px;
       color: var(--text-main);
       display: flex;
+      flex-direction: column;
       align-items: center;
       justify-content: center;
     }
 
     .container {
       width: 100%;
-      max-width: 720px;
+      max-width: 800px;
       padding: 24px;
       z-index: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
     }
 
-    .card {
+    .main-card {
       background: transparent;
-      padding: 40px 32px;
+      padding: 20px;
       text-align: center;
       width: 100%;
     }
 
     .logo {
-      width: 70px;
-      height: 70px;
+      width: 64px;
+      height: 64px;
       object-fit: contain;
-      margin-bottom: 24px;
-      border-radius: 22px;
+      margin-bottom: 20px;
+      border-radius: 18px;
+      box-shadow: 0 10px 30px -10px rgba(0,0,0,0.5);
     }
 
     h1 {
-      font-size: 2.6rem;
-      font-weight: 800;
-      margin-bottom: 16px;
-      color: var(--primary-red);
-      letter-spacing: -1.5px;
+      font-size: 2.2rem;
+      font-weight: 700;
+      margin-bottom: 12px;
+      color: var(--text-main); /* Mudado para branco para mais sobriedade */
+      letter-spacing: -1px;
+    }
+    
+    h1 span {
+      color: var(--primary-red); /* Apenas o destaque em vermelho */
     }
 
     .subtitle {
       color: var(--text-muted);
       margin-bottom: 32px;
-      line-height: 1.6;
-      font-size: 1.1rem;
-      max-width: 500px;
+      line-height: 1.5;
+      font-size: 1rem;
+      max-width: 480px;
       margin-left: auto;
       margin-right: auto;
+      font-weight: 400;
     }
 
+    /* --- Botão Moderno e Minimalista --- */
     .btn-add {
-      display: inline-block;
-      background: var(--primary-red);
-      color: white;
-      padding: 10px 24px;
-      border-radius: 6px;
-      text-decoration: none;
-      font-weight: 600;
-      margin-bottom: 30px;
-      transition: 0.2s ease;
-      box-shadow: none;
-     }
-
-   .btn-add:hover {
-      opacity: 0.9;
-      transform: translateY(-1px);
-      box-shadow: none;
-     }
-
-
-    .status {
-      font-weight: 500;
-      margin-bottom: 10px;
-      display: flex;
+      display: inline-flex;
       align-items: center;
       justify-content: center;
-      gap: 5px;
-      font-size: 9px;
+      background: var(--primary-red);
+      color: white;
+      padding: 10px 28px;
+      border-radius: 8px; /* Cantos um pouco mais suaves */
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 0.9rem;
+      margin-bottom: 24px;
+      transition: all 0.25s cubic-bezier(0.2, 0.8, 0.2, 1);
+      border: 1px solid transparent;
+      box-shadow: 0 4px 12px rgba(255, 59, 59, 0.2);
+    }
+
+    .btn-add:hover {
+      background: var(--primary-red-hover);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(255, 59, 59, 0.3);
+    }
+
+    .btn-add:active {
+      transform: translateY(0);
+    }
+
+    /* --- Status --- */
+    .status {
+      font-weight: 500;
+      margin-bottom: 40px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 6px 12px;
+      border-radius: 50px;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid var(--card-border);
+      font-size: 0.75rem;
       text-transform: uppercase;
-      letter-spacing: 1px;
+      letter-spacing: 0.5px;
     }
 
     .status-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      margin-right: 8px;
+      box-shadow: 0 0 10px currentColor;
+    }
+
+    /* --- Slider Horizontal Infinito (SaaS Style) --- */
+    .slider-container {
+      width: 100%;
+      overflow: hidden;
       position: relative;
-      display: inline-block;
-      width: 8px;
-      height: 8px;
-      border-radius: 50%;
+      margin-top: 10px;
+      padding: 10px 0;
+      /* Máscara de gradiente para suavizar as bordas laterais */
+      mask-image: linear-gradient(to right, transparent, black 15%, black 85%, transparent);
+      -webkit-mask-image: linear-gradient(to right, transparent, black 15%, black 85%, transparent);
     }
 
-    .status-dot::after {
-      content: "";
-      position: absolute;
-      inset: 0;
-      border-radius: 50%;
-      background-color: inherit;
-      animation: pulse-ring 1.2s ease-out infinite;
-      opacity: 0.4;
-    }
-
-    @keyframes pulse-ring {
-      0% { transform: scale(1); opacity: 0.5; }
-      100% { transform: scale(2); opacity: 0; }
-    }
-
-    .guild-carousel {
-      margin-top: 20px;
-      height: 120px;
+    .slider-track {
       display: flex;
-      align-items: center;
-      justify-content: center;
+      gap: 16px;
+      width: max-content;
+      animation: scroll 30s linear infinite;
+    }
+
+    .slider-track:hover {
+      animation-play-state: paused;
     }
 
     .guild-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 12px;
+      padding: 10px 16px;
       display: flex;
-      flex-direction: column;
       align-items: center;
-      gap: 10px;
-      animation: fadeGuild 0.5s ease;
+      gap: 12px;
+      min-width: 180px;
+      transition: transform 0.2s ease, background-color 0.2s ease;
+      cursor: default;
+      user-select: none;
+    }
+
+    .guild-card:hover {
+      background: rgba(255, 255, 255, 0.06);
+      transform: translateY(-2px);
+      border-color: rgba(255, 255, 255, 0.1);
     }
 
     .guild-card img {
-      width: 70px;
-      height: 70px;
+      width: 32px;
+      height: 32px;
       border-radius: 50%;
       object-fit: cover;
-      box-shadow: 0 4px 20px rgba(0,0,0,0.4);
     }
 
     .guild-card span {
-      font-size: 0.9rem;
-      color: var(--text-muted);
-      max-width: 200px;
-      text-align: center;
+      font-size: 0.85rem;
+      font-weight: 500;
+      color: var(--text-main);
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
+      max-width: 120px;
     }
 
-    @keyframes fadeGuild {
-      from { opacity: 0; transform: translateY(8px); }
-      to { opacity: 1; transform: translateY(0); }
+    @keyframes scroll {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); } /* Move metade (já que duplicamos a lista) */
     }
 
+    /* --- Links --- */
     .links {
       display: flex;
       justify-content: center;
       gap: 24px;
-      margin: 32px 0;
+      margin: 40px 0;
     }
 
     .link {
-      color: var(--text-main);
+      color: var(--text-muted);
       text-decoration: none;
-      font-weight: 500;
-      font-size: 1rem;
-      opacity: 0.8;
-      transition: all .3s ease;
+      font-weight: 400;
+      font-size: 0.9rem;
+      transition: color 0.2s ease;
     }
 
     .link:hover {
-      color: var(--primary-red);
-      opacity: 1;
-      transform: translateY(-2px);
+      color: var(--text-main);
+      text-decoration: underline;
+      text-decoration-thickness: 1px;
+      text-underline-offset: 4px;
     }
 
     footer {
-      position: absolute;
-      bottom: 30px;
-      width: 100%;
+      margin-top: auto;
+      padding-bottom: 24px;
       text-align: center;
-      font-size: 0.8rem;
-      color: #333;
+      font-size: 0.75rem;
+      color: #444;
     }
 
     @media (max-width: 480px) {
-      h1 { font-size: 2.5rem; }
-      .subtitle { font-size: 1rem; }
-      .links { flex-direction: column; gap: 15px; }
-      .btn-add { width: 100%; }
+      h1 { font-size: 1.8rem; }
+      .slider-container { mask-image: none; -webkit-mask-image: none; }
+      .guild-card { min-width: 160px; }
     }
   </style>
 </head>
 
 <body>
   <div class="container">
-    <div class="card">
+    <div class="main-card">
       <img src="./logo.png" alt="Punishment Logo" class="logo" />
 
-      <h1>Punishment</h1>
+      <h1><span>Punishment</span></h1>
       <p class="subtitle">
         Moderação avançada para manter seu servidor seguro e organizado.
       </p>
@@ -230,31 +265,32 @@
         Me Adicione
       </a>
 
-      <p class="status">
-        <span id="bot-status" style="display: flex; align-items: center; gap: 8px;">
-          <span class="status-dot" style="background-color: var(--unknown)"></span>
-          <span id="bot-text" style="color: var(--text-muted);">Verificando...</span>
-        </span>
-      </p>
+      <div>
+        <div class="status">
+            <span id="bot-status-dot" class="status-dot" style="background-color: var(--unknown)"></span>
+            <span id="bot-text" style="color: var(--text-muted);">Verificando...</span>
+        </div>
+      </div>
 
-      <div class="guild-carousel">
-        <div id="guild-display"></div>
+      <div class="slider-container">
+        <div class="slider-track" id="guild-track">
+          </div>
       </div>
 
       <div class="links">
-        <a href="./terms" class="link">Termos de Uso</a>
-        <a href="./privacy" class="link">Política de Privacidade</a>
+        <a href="./terms" class="link">Termos</a> <a href="./privacy" class="link">Privacidade</a>
       </div>
     </div>
   </div>
 
   <footer>
-    © 2026 Punishment. Todos os direitos reservados.
+    © 2026 Punishment
   </footer>
 
   <script>
+    // --- Lógica de Status (Mantida, visual ajustado no CSS) ---
     async function loadStatus() {
-      const dot = document.querySelector('.status-dot');
+      const dot = document.getElementById('bot-status-dot');
       const text = document.getElementById('bot-text');
 
       try {
@@ -263,59 +299,73 @@
 
         if (data.online) {
           dot.style.backgroundColor = 'var(--online)';
-          text.textContent = 'Online';
-          text.style.color = 'var(--online)';
+          dot.style.boxShadow = '0 0 10px var(--online)';
+          text.textContent = 'Sistemas Operacionais'; // Texto mais profissional
+          text.style.color = 'var(--text-main)';
         } else {
           dot.style.backgroundColor = 'var(--offline)';
-          text.textContent = 'Offline';
-          text.style.color = 'var(--offline)';
+          dot.style.boxShadow = '0 0 10px var(--offline)';
+          text.textContent = 'Fora do ar';
+          text.style.color = 'var(--text-muted)';
         }
       } catch {
         dot.style.backgroundColor = 'var(--unknown)';
+        dot.style.boxShadow = 'none';
         text.textContent = 'Indisponível';
         text.style.color = 'var(--unknown)';
       }
     }
 
-    /* ===== APENAS ESTA PARTE FOI CORRIGIDA ===== */
+    // --- Nova Lógica de Guilds (Slider Infinito) ---
     async function loadGuilds() {
+      const track = document.getElementById('guild-track');
+      
       try {
         const res = await fetch('https://api.punbot.xyz/bot/guilds');
-        const guilds = await res.json();
-        if (!guilds.length) return;
+        let guilds = await res.json();
 
-        let index = 0;
-        const container = document.getElementById('guild-display');
-
-        function getIconUrl(guild) {
-          if (!guild.icon) return './logo.png';
-          return `https://cdn.discordapp.com/icons/${guild.id}/${guild.icon}.png?size=256`;
+        if (!guilds || guilds.length === 0) {
+            document.querySelector('.slider-container').style.display = 'none';
+            return;
         }
 
-        function showGuild() {
-          const guild = guilds[index];
+        // Se tiver poucas guilds, duplicamos o array algumas vezes para preencher a tela
+        // Isso garante que a animação fique fluida
+        if (guilds.length < 10) {
+            guilds = [...guilds, ...guilds, ...guilds]; 
+        }
 
-          container.innerHTML = `
+        const createCard = (guild) => {
+          const icon = guild.icon 
+            ? `https://cdn.discordapp.com/icons/${guild.id}/${guild.icon}.png?size=64` 
+            : './logo.png'; // Fallback
+
+          return `
             <div class="guild-card">
-              <img src="${getIconUrl(guild)}" alt="${guild.name}">
+              <img src="${icon}" alt="${guild.name}" loading="lazy">
               <span>${guild.name}</span>
             </div>
           `;
+        };
 
-          index = (index + 1) % guilds.length;
-        }
-
-        showGuild();
-        setInterval(showGuild, 3000);
+        // Gerar HTML dos cards originais
+        const cardsHTML = guilds.map(createCard).join('');
+        
+        // Inserir os cards originais + uma cópia exata para criar o loop infinito (técnica de marquee)
+        track.innerHTML = cardsHTML + cardsHTML;
 
       } catch (err) {
-        console.error('Erro ao carregar guilds');
+        console.error('Erro ao carregar guilds, ocultando seção.', err);
+        document.querySelector('.slider-container').style.display = 'none';
       }
     }
 
+    // Iniciar
     loadStatus();
     loadGuilds();
-    setInterval(loadStatus, 10000);
+    
+    // Atualizar status periodicamente
+    setInterval(loadStatus, 30000); // Aumentei para 30s para economizar requisições
   </script>
 </body>
 </html>
