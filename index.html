@@ -85,7 +85,7 @@
       margin-right: auto;
     }
 
-    /* 🔥 BOTÃO NOVO (MENOR E MINIMALISTA) */
+    /* BOTÃO MENOR */
     .btn-add {
       display: inline-flex;
       align-items: center;
@@ -109,7 +109,6 @@
       box-shadow: 0 8px 18px rgba(255, 59, 59, 0.25);
     }
 
-    /* STATUS — INTACTO */
     .status {
       font-weight: 500;
       margin-bottom: 10px;
@@ -145,7 +144,7 @@
       100% { transform: scale(2); opacity: 0; }
     }
 
-    /* 🔥 NOVO SLIDER HORIZONTAL (MAIS LENTO) */
+    /* SLIDER GUILDS */
     .slider-container {
       width: 100%;
       overflow: hidden;
@@ -158,7 +157,7 @@
       display: flex;
       gap: 16px;
       width: max-content;
-      animation: scroll 60s linear infinite; /* 🔥 MAIS LENTO */
+      animation: scroll 60s linear infinite; /* MAIS LENTO */
     }
 
     .slider-track:hover {
@@ -235,3 +234,104 @@
     }
   </style>
 </head>
+
+<body>
+  <div class="container">
+    <div class="card">
+      <img src="./logo.png" alt="Punishment Logo" class="logo" />
+
+      <h1>Punishment</h1>
+      <p class="subtitle">
+        Moderação avançada para manter seu servidor seguro e organizado.
+      </p>
+
+      <a href="https://punbot.xyz/invite" class="btn-add">
+        Me Adicione
+      </a>
+
+      <p class="status">
+        <span style="display: flex; align-items: center; gap: 8px;">
+          <span class="status-dot" style="background-color: var(--unknown)"></span>
+          <span id="bot-text" style="color: var(--text-muted);">Verificando...</span>
+        </span>
+      </p>
+
+      <div class="slider-container">
+        <div class="slider-track" id="guild-track"></div>
+      </div>
+
+      <div class="links">
+        <a href="./terms" class="link">Termos de Uso</a>
+        <a href="./privacy" class="link">Política de Privacidade</a>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    © 2026 Punishment. Todos os direitos reservados.
+  </footer>
+
+  <script>
+    async function loadStatus() {
+      const dot = document.querySelector('.status-dot');
+      const text = document.getElementById('bot-text');
+
+      try {
+        const res = await fetch('https://api.punbot.xyz/bot/status');
+        const data = await res.json();
+
+        if (data.online) {
+          dot.style.backgroundColor = 'var(--online)';
+          text.textContent = 'Online';
+          text.style.color = 'var(--online)';
+        } else {
+          dot.style.backgroundColor = 'var(--offline)';
+          text.textContent = 'Offline';
+          text.style.color = 'var(--offline)';
+        }
+      } catch {
+        dot.style.backgroundColor = 'var(--unknown)';
+        text.textContent = 'Indisponível';
+        text.style.color = 'var(--unknown)';
+      }
+    }
+
+    async function loadGuilds() {
+      const track = document.getElementById('guild-track');
+
+      try {
+        const res = await fetch('https://api.punbot.xyz/bot/guilds');
+        let guilds = await res.json();
+        if (!guilds.length) return;
+
+        if (guilds.length < 10) {
+          guilds = [...guilds, ...guilds, ...guilds];
+        }
+
+        const createCard = (guild) => {
+          const icon = guild.icon
+            ? `https://cdn.discordapp.com/icons/${guild.id}/${guild.icon}.png?size=64`
+            : './logo.png';
+
+          return `
+            <div class="guild-card">
+              <img src="${icon}" alt="${guild.name}">
+              <span>${guild.name}</span>
+            </div>
+          `;
+        };
+
+        const cardsHTML = guilds.map(createCard).join('');
+        track.innerHTML = cardsHTML + cardsHTML;
+
+      } catch (err) {
+        console.error('Erro ao carregar guilds');
+      }
+    }
+
+    loadStatus();
+    loadGuilds();
+    setInterval(loadStatus, 10000);
+  </script>
+</body>
+</html>
