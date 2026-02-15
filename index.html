@@ -85,7 +85,6 @@
       margin-right: auto;
     }
 
-    /* BOTÃO MENOR */
     .btn-add {
       display: inline-flex;
       align-items: center;
@@ -238,7 +237,6 @@
   <div class="container">
     <div class="card">
       <img src="./logo.png" alt="Punishment Logo" class="logo" />
-
       <h1>Punishment</h1>
       <p class="subtitle">
         Moderação avançada para manter seu servidor seguro e organizado.
@@ -295,13 +293,22 @@
       }
     }
 
+    let guildsLoading = false;
+
     async function loadGuilds() {
+      if (guildsLoading) return;
+      guildsLoading = true;
+
       const track = document.getElementById('guild-track');
 
       try {
         const res = await fetch('https://api.punbot.xyz/bot/guilds');
         let guilds = await res.json();
-        if (!guilds.length) return;
+
+        if (!guilds.length) {
+          track.innerHTML = '';
+          return;
+        }
 
         if (guilds.length < 10) {
           guilds = [...guilds, ...guilds, ...guilds];
@@ -321,16 +328,22 @@
         };
 
         const cardsHTML = guilds.map(createCard).join('');
+
+        track.innerHTML = '';
         track.innerHTML = cardsHTML + cardsHTML;
 
       } catch (err) {
         console.error('Erro ao carregar guilds');
+      } finally {
+        guildsLoading = false;
       }
     }
 
     loadStatus();
     loadGuilds();
+
     setInterval(loadStatus, 10000);
+    setInterval(loadGuilds, 30000);
   </script>
 </body>
 </html>
