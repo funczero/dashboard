@@ -126,6 +126,19 @@
       animation: pulse-ring 1.2s ease-out infinite;
     }
 
+    /* Estilo para a nova mensagem de estatísticas */
+    .stats-msg {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      margin-bottom: 10px;
+      font-weight: 500;
+    }
+
+    .stats-msg span {
+      color: var(--primary-red);
+      font-weight: 700;
+    }
+
     @keyframes pulse-ring {
       0% { transform: scale(1); opacity: 0.5; }
       100% { transform: scale(2.5); opacity: 0; }
@@ -134,7 +147,7 @@
     .slider-container {
       width: 100%;
       overflow: hidden;
-      margin-top: 20px;
+      margin-top: 5px;
       mask-image: linear-gradient(to right, transparent, black 15%, black 85%, transparent);
       -webkit-mask-image: linear-gradient(to right, transparent, black 15%, black 85%, transparent);
     }
@@ -257,6 +270,8 @@
         <span id="bot-text" style="color: var(--text-muted);">Verificando...</span>
       </p>
 
+      <p class="stats-msg" id="bot-stats">Carregando informações...</p>
+
       <div class="slider-container">
         <div class="slider-track" id="guild-track"></div>
       </div>
@@ -275,17 +290,30 @@
     async function loadStatus() {
       const dot = document.querySelector('.status-dot');
       const text = document.getElementById('bot-text');
+      const stats = document.getElementById('bot-stats');
+
       try {
         const res = await fetch('https://api.punbot.xyz/bot/status');
         const data = await res.json();
+        
+        // Atualiza Status
         const color = data.online ? 'var(--online)' : 'var(--offline)';
         dot.style.backgroundColor = color;
         text.textContent = data.online ? 'Online' : 'Offline';
         text.style.color = color;
+
+        // Atualiza a frase dinâmica
+        if (data.guilds && data.users) {
+          const totalGuilds = data.guilds.length.toLocaleString('pt-BR');
+          const totalUsers = data.users.toLocaleString('pt-BR');
+          stats.innerHTML = `O Punishment está presente em mais de <span>${totalGuilds}</span> servidores, alcançando mais de <span>${totalUsers}</span> de usuários.`;
+        }
+
       } catch {
         dot.style.backgroundColor = 'var(--unknown)';
         text.textContent = 'Indisponível';
         text.style.color = 'var(--unknown)';
+        stats.textContent = '';
       }
     }
 
