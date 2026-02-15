@@ -302,12 +302,14 @@
         text.textContent = data.online ? 'Online' : 'Offline';
         text.style.color = color;
 
-        // Atualiza a frase dinâmica
-        if (data.guilds && data.users) {
-          const totalGuilds = data.guilds.length.toLocaleString('pt-BR');
-          const totalUsers = data.users.toLocaleString('pt-BR');
-          stats.innerHTML = `O Punishment está presente em mais de <span>${totalGuilds}</span> servidores, alcançando mais de <span>${totalUsers}</span> de usuários.`;
-        }
+        // Atualiza a frase dinâmica com checagem segura
+      if (data.guilds && Array.isArray(data.guilds) && typeof data.users === 'number') {
+         const totalGuilds = data.guilds.length.toLocaleString('pt-BR');
+         const totalUsers = data.users.toLocaleString('pt-BR');
+         stats.innerHTML = `O Punishment está presente em mais de <span>${totalGuilds}</span> servidores, alcançando mais de <span>${totalUsers}</span> de usuários.`;
+      } else {
+         stats.textContent = 'Carregando informações...';
+      }
 
       } catch {
         dot.style.backgroundColor = 'var(--unknown)';
