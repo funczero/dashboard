@@ -67,7 +67,8 @@
       border-radius: 24px;
       padding: 48px 32px;
       text-align: center;
-      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+      /* Sombra removida aqui */
+      box-shadow: none; 
       position: relative;
       overflow: hidden;
     }
@@ -89,7 +90,8 @@
       height: 80px;
       border-radius: 20px;
       margin-bottom: 24px;
-      box-shadow: 0 10px 30px -10px rgba(0,0,0,0.5);
+      /* Sombra removida aqui */
+      box-shadow: none;
       border: 2px solid var(--card-border);
       transition: transform 0.3s ease;
     }
@@ -138,6 +140,7 @@
     .btn-cta:hover {
       background-color: var(--accent-hover);
       transform: translateY(-2px);
+      /* Mantive apenas o brilho no hover do botão para interação */
       box-shadow: 0 10px 25px -5px var(--accent-glow);
     }
 
@@ -166,6 +169,7 @@
       height: 8px;
       border-radius: 50%;
       background-color: var(--status-unknown);
+      /* Mantive o brilho interno do status */
       box-shadow: 0 0 8px currentColor;
       position: relative;
     }
@@ -182,7 +186,7 @@
       overflow: hidden;
       mask-image: linear-gradient(to right, transparent, black 15%, black 85%, transparent);
       -webkit-mask-image: linear-gradient(to right, transparent, black 15%, black 85%, transparent);
-      padding: 10px 0; /* Espaço para sombra */
+      padding: 10px 0;
     }
 
     .slider-track {
@@ -325,9 +329,6 @@
       const text = document.getElementById('bot-text');
 
       try {
-        // Simula delay de rede para teste visual (remover em prod se quiser)
-        // await new Promise(r => setTimeout(r, 500)); 
-        
         const res = await fetch('https://api.punbot.xyz/bot/status');
         const data = await res.json();
 
@@ -367,13 +368,11 @@
           return;
         }
 
-        // Duplica a lista se for pequena para garantir o loop infinito visual
         if (guilds.length < 10) {
           guilds = [...guilds, ...guilds, ...guilds];
         }
 
         const createCard = (guild) => {
-          // Fallback para imagem caso não tenha ícone
           const icon = guild.icon
             ? `https://cdn.discordapp.com/icons/${guild.id}/${guild.icon}.png?size=64`
             : './logo.png';
@@ -386,26 +385,22 @@
           `;
         };
 
-        // Renderiza e duplica o HTML para o efeito de carrossel infinito (Marquee)
         const cardsHTML = guilds.map(createCard).join('');
         track.innerHTML = cardsHTML + cardsHTML;
 
       } catch (err) {
         console.error('Erro ao carregar guilds:', err);
-        // Opcional: mostrar erro visual no slider
       } finally {
         guildsLoading = false;
       }
     }
 
-    // Inicialização
     document.addEventListener('DOMContentLoaded', () => {
         loadStatus();
         loadGuilds();
     });
 
-    // Atualização periódica
-    setInterval(loadStatus, 15000); // Aumentado levemente para economizar requisições
+    setInterval(loadStatus, 15000);
     setInterval(loadGuilds, 60000);
   </script>
 </body>
