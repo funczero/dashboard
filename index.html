@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Punishment</title>
+
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    :root{
+      --bg-900:#07070a;
+      --bg-800:#0f1114;
+      --card:#15161a;
+      --muted:#a8a8b0;
+      --accent:#ff3b3b;
+      --accent-2:#ff5c5c;
+      --success:#43b581;
+      --danger:#f04747;
+      --warning:#faa61a;
+      --glass: rgba(255,255,255,0.03);
+      --border: rgba(255,255,255,0.04);
+      --radius:14px;
+      --max-width:920px;
+    }
+
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family:Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+      background: radial-gradient(circle at 20% 10%, #111116 0%, var(--bg-900) 40%);
+      color:#fff;
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:28px;
+    }
+
+    .wrap{
+      width:100%;
+      max-width:var(--max-width);
+      background: linear-gradient(180deg, rgba(255,255,255,0.02), transparent);
+      border-radius:18px;
+      padding:28px;
+      border:1px solid var(--border);
+      box-shadow: 0 8px 30px rgba(2,6,23,0.6);
+      position:relative;
+      overflow:hidden;
+    }
+
+    .header{
+      display:flex;
+      gap:18px;
+      align-items:center;
+      justify-content:space-between;
+      flex-wrap:wrap;
+    }
+
+    .brand{
+      display:flex;
+      gap:14px;
+      align-items:center;
+    }
+
+    .logo{
+      width:64px;
+      height:64px;
+      border-radius:14px;
+      object-fit:cover;
+      background:linear-gradient(135deg,#1b1b1f, #0f0f12);
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      border:1px solid var(--border);
+      padding:6px;
+    }
+
+    h1{
+      font-size:1.6rem;
+      margin:0;
+      color:var(--accent);
+      letter-spacing:-0.6px;
+      font-weight:800;
+    }
+
+    .subtitle{
+      color:var(--muted);
+      font-size:0.95rem;
+      margin-top:4px;
+      max-width:560px;
+    }
+
+    .actions{
+      display:flex;
+      gap:12px;
+      align-items:center;
+    }
+
+    .btn{
+      display:inline-flex;
+      align-items:center;
+      gap:10px;
+      padding:10px 16px;
+      border-radius:10px;
+      font-weight:700;
+      font-size:0.95rem;
+      text-decoration:none;
+      cursor:pointer;
+      border:1px solid transparent;
+      transition:all .18s ease;
+    }
+
+    .btn-invite{
+      background:linear-gradient(180deg,var(--accent),var(--accent-2));
+      color:#fff;
+      box-shadow:0 8px 24px rgba(255,59,59,0.12);
+    }
+
+    .btn-invite:focus{outline:3px solid rgba(255,59,59,0.18)}
+    .btn-ghost{
+      background:transparent;
+      color:var(--muted);
+      border:1px solid var(--border);
+    }
+
+    /* Main content grid */
+    .main{
+      display:grid;
+      grid-template-columns: 1fr 360px;
+      gap:20px;
+      margin-top:20px;
+    }
+
+    @media (max-width:880px){
+      .main{grid-template-columns:1fr; padding-bottom:8px}
+      .header{gap:12px}
+    }
+
+    /* Left column */
+    .panel{
+      background:linear-gradient(180deg, rgba(255,255,255,0.01), transparent);
+      border-radius:12px;
+      padding:18px;
+      border:1px solid var(--border);
+    }
+
+    .status-row{
+      display:flex;
+      align-items:center;
+      gap:12px;
+      justify-content:space-between;
+      flex-wrap:wrap;
+    }
+
+    .status-left{
+      display:flex;
+      gap:12px;
+      align-items:center;
+    }
+
+    .status-dot{
+      width:14px;
+      height:14px;
+      border-radius:50%;
+      position:relative;
+      box-shadow:0 0 0 4px rgba(0,0,0,0.25);
+    }
+
+    .status-text{
+      display:flex;
+      flex-direction:column;
+      gap:2px;
+    }
+
+    .status-text .state{
+      font-weight:700;
+      font-size:1rem;
+    }
+
+    .status-text .detail{
+      color:var(--muted);
+      font-size:0.9rem;
+    }
+
+    .stats{
+      margin-top:14px;
+      color:var(--muted);
+      font-size:0.95rem;
+      line-height:1.45;
+    }
+
+    .stats strong{color:#fff; font-weight:700}
+
+    /* Right column */
+    .card-side{
+      display:flex;
+      flex-direction:column;
+      gap:12px;
+    }
+
+    .card-small{
+      background:var(--card);
+      border-radius:12px;
+      padding:12px;
+      border:1px solid var(--border);
+      display:flex;
+      gap:12px;
+      align-items:center;
+      justify-content:space-between;
+    }
+
+    .card-small .label{color:var(--muted); font-size:0.85rem}
+    .card-small .value{font-weight:700; color:#fff}
+
+    /* Guild carousel */
+    .carousel{
+      margin-top:16px;
+      overflow:hidden;
+      border-radius:12px;
+      padding:10px;
+      background:linear-gradient(180deg, rgba(255,255,255,0.01), transparent);
+      border:1px solid var(--border);
+    }
+
+    .track{
+      display:flex;
+      gap:12px;
+      align-items:center;
+      will-change:transform;
+      animation:scroll 60s linear infinite;
+      padding:6px;
+    }
+
+    .guild{
+      min-width:220px;
+      background:linear-gradient(180deg, rgba(255,255,255,0.02), transparent);
+      border-radius:10px;
+      padding:10px;
+      display:flex;
+      gap:10px;
+      align-items:center;
+      border:1px solid rgba(255,255,255,0.02);
+    }
+
+    .guild img{
+      width:48px;
+      height:48px;
+      border-radius:10px;
+      object-fit:cover;
+      background:var(--glass);
+      border:1px solid var(--border);
+    }
+
+    .guild .meta{display:flex;flex-direction:column;gap:4px}
+    .guild .name{font-weight:700; font-size:0.95rem; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; max-width:140px}
+    .guild .members{color:var(--muted); font-size:0.85rem; display:flex; gap:8px; align-items:center}
+
+    .verified{
+      color:#23a559;
+      display:inline-flex;
+      align-items:center;
+      gap:6px;
+      font-size:0.8rem;
+    }
+
+    /* footer */
+    footer{
+      margin-top:18px;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:12px;
+      color:var(--muted);
+      font-size:0.9rem;
+      flex-wrap:wrap;
+    }
+
+    .links a{color:var(--muted); text-decoration:none; margin-right:12px}
+    .links a:focus{outline:3px solid rgba(255,59,59,0.12); border-radius:6px}
+
+    /* Animations */
+    @keyframes scroll{
+      0%{transform:translateX(0)}
+      100%{transform:translateX(-50%)}
+    }
+
+    @media (prefers-reduced-motion: reduce){
+      .track{animation:none}
+    }
+
+    /* small helpers */
+    .muted{color:var(--muted)}
+    .center{display:flex;align-items:center;justify-content:center}
+    .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+  </style>
+</head>
+<body>
+  <div class="wrap" role="main" aria-labelledby="page-title">
+    <header class="header">
+      <div class="brand">
+        <div class="logo" aria-hidden="true">
+          <img src="./logo.png" alt="Punishment logo" style="width:100%;height:100%;border-radius:10px;object-fit:cover">
+        </div>
+        <div>
+          <h1 id="page-title">Punishment</h1>
+          <div class="subtitle">Moderação avançada para manter seu servidor seguro e organizado.</div>
+        </div>
+      </div>
+
+      <div class="actions" role="region" aria-label="Ações">
+        <a class="btn btn-invite" href="https://punbot.xyz/invite" target="_blank" rel="noopener noreferrer" aria-label="Adicionar Punishment ao seu servidor">Me Adicione</a>
+        <a class="btn btn-ghost" href="./docs" aria-label="Documentação">Documentação</a>
+      </div>
+    </header>
+
+    <section class="main" aria-live="polite">
+      <!-- Left -->
+      <div class="panel" aria-labelledby="status-heading">
+        <div class="status-row">
+          <div class="status-left">
+            <div class="status-dot" id="status-dot" aria-hidden="true" style="background:var(--warning)"></div>
+            <div class="status-text">
+              <div id="status-heading" class="state">Verificando...</div>
+              <div id="status-detail" class="detail">Conectando à API</div>
+            </div>
+          </div>
+
+          <div class="center" style="gap:12px">
+            <div class="muted" style="font-size:0.9rem">Última atualização</div>
+            <div id="last-updated" class="muted" style="font-weight:700">—</div>
+          </div>
+        </div>
+
+        <div class="stats" id="bot-stats" aria-live="polite">
+          Carregando informações do Punishment...
+        </div>
+
+        <div style="margin-top:16px; display:flex; gap:10px; flex-wrap:wrap;">
+          <a class="btn btn-ghost" href="./support" aria-label="Suporte">Suporte</a>
+          <a class="btn btn-ghost" href="./invite" aria-label="Página de convite">Página de convite</a>
+        </div>
+      </div>
+
+      <!-- Right -->
+      <aside class="card-side" aria-labelledby="side-heading">
+        <div class="card-small" role="status" aria-live="polite">
+          <div>
+            <div class="label">Status</div>
+            <div id="side-status" class="value">Verificando</div>
+          </div>
+          <div style="text-align:right">
+            <div class="label">Servidores</div>
+            <div id="side-guilds" class="value">—</div>
+          </div>
+        </div>
+
+        <div class="card-small">
+          <div>
+            <div class="label">Usuários alcançados</div>
+            <div id="side-users" class="value">—</div>
+          </div>
+          <div style="text-align:right">
+            <div class="label">API</div>
+            <div id="side-api" class="value muted">—</div>
+          </div>
+        </div>
+
+        <div class="carousel" aria-label="Servidores que usam Punishment">
+          <div class="track" id="guild-track" role="list"></div>
+        </div>
+      </aside>
+    </section>
+
+    <footer>
+      <div class="links">
+        <a href="./terms" aria-label="Termos de Uso">Termos de Uso</a>
+        <a href="./privacy" aria-label="Política de Privacidade">Política de Privacidade</a>
+      </div>
+      <div class="muted">© 2026 Punishment. Todos os direitos reservados.</div>
+    </footer>
+  </div>
+
+  <script>
+    (function(){
+      const API_STATUS = 'https://api.punbot.xyz/bot/status';
+      const API_GUILDS = 'https://api.punbot.xyz/bot/guilds';
+
+      const dot = document.getElementById('status-dot');
+      const heading = document.getElementById('status-heading');
+      const detail = document.getElementById('status-detail');
+      const lastUpdated = document.getElementById('last-updated');
+      const statsEl = document.getElementById('bot-stats');
+
+      const sideStatus = document.getElementById('side-status');
+      const sideGuilds = document.getElementById('side-guilds');
+      const sideUsers = document.getElementById('side-users');
+      const sideApi = document.getElementById('side-api');
+
+      const guildTrack = document.getElementById('guild-track');
+
+      function formatNumber(n){
+        if (typeof n !== 'number') return '—';
+        return n.toLocaleString('pt-BR');
+      }
+
+      async function loadStatus(){
+        try{
+          const res = await fetch(API_STATUS, {cache: 'no-store'});
+          if (!res.ok) throw new Error('Resposta inválida');
+          const data = await res.json();
+
+          const online = Boolean(data.online);
+          const color = online ? getComputedStyle(document.documentElement).getPropertyValue('--success').trim() : getComputedStyle(document.documentElement).getPropertyValue('--danger').trim();
+
+          dot.style.background = online ? 'var(--success)' : 'var(--danger)';
+          heading.textContent = online ? 'Online' : 'Offline';
+          detail.textContent = online ? 'Pronto para moderação' : 'Indisponível no momento';
+          sideStatus.textContent = online ? 'Online' : 'Offline';
+          sideApi.textContent = data.apiVersion || '—';
+
+          if (Array.isArray(data.guilds) && typeof data.users === 'number'){
+            const totalGuilds = data.guilds.length;
+            sideGuilds.textContent = formatNumber(totalGuilds);
+            sideUsers.textContent = formatNumber(data.users);
+            statsEl.innerHTML = `O Punishment está presente em <strong>${formatNumber(totalGuilds)}</strong> servidores e alcança <strong>${formatNumber(data.users)}</strong> usuários.`;
+          } else {
+            statsEl.textContent = 'Informações de alcance indisponíveis no momento.';
+          }
+
+          lastUpdated.textContent = new Date().toLocaleTimeString('pt-BR', {hour:'2-digit', minute:'2-digit', second:'2-digit'});
+        } catch (err){
+          console.warn('Erro ao buscar status', err);
+          dot.style.background = 'var(--warning)';
+          heading.textContent = 'Indisponível';
+          detail.textContent = 'Não foi possível conectar à API';
+          sideStatus.textContent = 'Indisponível';
+          statsEl.textContent = 'Não foi possível carregar as informações. Tente novamente mais tarde.';
+          lastUpdated.textContent = new Date().toLocaleTimeString('pt-BR');
+        }
+      }
+
+      async function loadGuilds(){
+        try{
+          const res = await fetch(API_GUILDS, {cache: 'no-store'});
+          if (!res.ok) throw new Error('Resposta inválida');
+          let guilds = await res.json();
+
+          if (!Array.isArray(guilds) || guilds.length === 0){
+            guildTrack.innerHTML = `<div class="guild" role="listitem"><img src="./logo.png" alt="Placeholder"><div class="meta"><div class="name">Nenhum servidor disponível</div><div class="members muted">— membros</div></div></div>`;
+            return;
+          }
+
+          while (guilds.length < 12) guilds = guilds.concat(guilds);
+
+          const html = guilds.map(g => {
+            const icon = g.icon ? `https://cdn.discordapp.com/icons/${g.id}/${g.icon}.png?size=128` : './logo.png';
+            const members = (g.members || 0).toLocaleString('pt-BR');
+            const safeName = escapeHtml(g.name || 'Servidor');
+            return `
+              <div class="guild" role="listitem" title="${safeName}">
+                <img src="${icon}" alt="${safeName} icon" loading="lazy" onerror="this.src='./logo.png'">
+                <div class="meta">
+                  <div class="name">${safeName}</div>
+                  <div class="members"><span class="verified">✔</span> ${members} membros</div>
+                </div>
+              </div>
+            `;
+          }).join('');
+
+          guildTrack.innerHTML = html + html;
+        } catch (err){
+          console.warn('Erro ao carregar guilds', err);
+          guildTrack.innerHTML = `<div class="guild" role="listitem"><img src="./logo.png" alt="Placeholder"><div class="meta"><div class="name">Erro ao carregar servidores</div><div class="members muted">Tente novamente mais tarde</div></div></div>`;
+        }
+      }
+
+      function escapeHtml(str){
+        return String(str)
+          .replace(/&/g, '&amp;')
+          .replace(/</g, '&lt;')
+          .replace(/>/g, '&gt;')
+          .replace(/"/g, '&quot;')
+          .replace(/'/g, '&#39;');
+      }
+
+      guildTrack.addEventListener('mouseenter', () => {
+        guildTrack.style.animationPlayState = 'paused';
+      });
+      guildTrack.addEventListener('mouseleave', () => {
+        guildTrack.style.animationPlayState = 'running';
+      });
+
+      loadStatus();
+      loadGuilds();
+      setInterval(loadStatus, 10000);
+      setInterval(loadGuilds, 300000);
+    })();
+  </script>
+</body>
+</html>
+
