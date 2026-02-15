@@ -100,7 +100,6 @@
 
     .status {
       font-weight: 600;
-      margin-bottom: 15px;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -108,6 +107,7 @@
       font-size: 9px;
       text-transform: uppercase;
       letter-spacing: 1px;
+      margin-bottom: 10px;
     }
 
     .status-dot {
@@ -129,12 +129,13 @@
     .stats-msg {
       font-size: 0.8rem;
       color: var(--text-muted);
+      margin-top: 12px;
       margin-bottom: 10px;
       font-weight: 500;
     }
 
     .stats-msg span {
-      color: var(--primary-red);
+      color: var(--text-muted);
       font-weight: 700;
     }
 
@@ -295,13 +296,11 @@
         const res = await fetch('https://api.punbot.xyz/bot/status');
         const data = await res.json();
 
-        // Atualiza Status
         const color = data.online ? 'var(--online)' : 'var(--offline)';
         dot.style.backgroundColor = color;
         text.textContent = data.online ? 'Online' : 'Offline';
         text.style.color = color;
 
-        // Atualiza a frase dinâmica
         if (Array.isArray(data.guilds) && typeof data.users === 'number') {
           const totalGuilds = data.guilds.length.toLocaleString('pt-BR');
           const totalUsers = data.users.toLocaleString('pt-BR');
