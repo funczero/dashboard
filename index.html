@@ -30,7 +30,7 @@
     html, body {
       height: 100%;
       width: 100%;
-      overflow: hidden; /* Evita scroll desnecessário */
+      overflow: hidden;
     }
 
     body {
@@ -44,20 +44,20 @@
 
     .container {
       width: 100%;
-      max-width: 600px; /* Reduzido de 720px */
+      max-width: 600px;
       padding: 20px;
       z-index: 1;
     }
 
     .card {
       background: transparent;
-      padding: 20px; /* Reduzido de 40px */
+      padding: 20px;
       text-align: center;
       width: 100%;
     }
 
     .logo {
-      width: 60px; /* Reduzido de 70px */
+      width: 60px;
       height: 60px;
       object-fit: contain;
       margin-bottom: 16px;
@@ -65,7 +65,7 @@
     }
 
     h1 {
-      font-size: 2rem; /* Reduzido de 2.6rem */
+      font-size: 2rem;
       font-weight: 800;
       margin-bottom: 12px;
       color: var(--primary-red);
@@ -143,7 +143,7 @@
       display: flex;
       gap: 12px;
       width: max-content;
-      animation: scroll 40s linear infinite;
+      animation: scroll 80s linear infinite;
     }
 
     .guild-card {
@@ -258,7 +258,6 @@
         let guilds = await res.json();
         if (!guilds.length) return;
 
-        // Preenche para garantir o efeito de scroll infinito
         while (guilds.length < 15) {
           guilds = [...guilds, ...guilds];
         }
@@ -270,7 +269,6 @@
           </div>
         `).join('');
 
-        // Limpa e reinicia para evitar dessincronização visual
         track.innerHTML = cardsHTML + cardsHTML;
       } catch (err) {
         console.error('Erro ao carregar guilds');
@@ -279,8 +277,8 @@
 
     loadStatus();
     loadGuilds();
-    setInterval(loadStatus, 15000);
-    setInterval(loadGuilds, 60000); // Atualiza guilds com menos frequência para evitar pulos visuais
+    setInterval(loadStatus, 10000);
+    setInterval(loadGuilds, 60000);
   </script>
 </body>
 </html>
