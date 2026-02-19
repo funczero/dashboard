@@ -195,7 +195,7 @@
       const text = document.getElementById('bot-text');
 
       try {
-        const res = await fetch('https://api.punbot.xyz/bot/status');
+        const res = await fetch('https://punbot.xyz/api/bot/status');
         const data = await res.json();
 
         const color = data.online ? 'var(--online)' : 'var(--offline)';
