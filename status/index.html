@@ -161,8 +161,10 @@ async function fetchStatus() {
     const statusEl = document.getElementById('status');
     const apiStatusEl = document.getElementById('apiStatus');
 
-    // Ajuste conforme seu retorno da API
-    const isOnline = statusData.online === true || statusData.status === "online";
+    // ===== STATUS =====
+    const isOnline =
+      statusData.online === true ||
+      statusData.status === "online";
 
     if (isOnline) {
       statusEl.textContent = "🟢 Operational";
@@ -174,15 +176,30 @@ async function fetchStatus() {
       apiStatusEl.textContent = "Offline";
     }
 
-    document.getElementById('guilds').textContent = guildsData.total || guildsData;
-    document.getElementById('users').textContent = usersData.total || usersData;
+    // ===== SERVIDORES (CORRIGIDO) =====
+    const totalGuilds = Array.isArray(guildsData)
+      ? guildsData.length
+      : (guildsData.guilds ? guildsData.guilds.length : 0);
 
+    document.getElementById('guilds').textContent =
+      totalGuilds.toLocaleString();
+
+    // ===== USUÁRIOS (mantendo sua API correta) =====
+    const totalUsers =
+      usersData.total || usersData.users || 0;
+
+    document.getElementById('users').textContent =
+      totalUsers.toLocaleString();
+
+    // ===== Última atualização =====
     document.getElementById('updated').textContent =
       new Date().toLocaleTimeString();
 
   } catch (error) {
-    document.getElementById('status').textContent = "🔴 Error fetching data";
-    document.getElementById('status').className = "status-indicator offline";
+    document.getElementById('status').textContent =
+      "🔴 Error fetching data";
+    document.getElementById('status').className =
+      "status-indicator offline";
   }
 }
 
