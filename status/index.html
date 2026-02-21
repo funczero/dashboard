@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Punishment • Status</title>
+  <title>Punishment Status</title>
 
   <script src="https://unpkg.com/lucide@latest"></script>
 
@@ -70,13 +70,6 @@
       letter-spacing: -1px;
       margin-bottom: 8px;
       color: var(--primary-red);
-    }
-
-    .subtitle {
-      color: var(--text-muted);
-      font-size: 1rem;
-      max-width: 400px;
-      margin: 0 auto;
     }
 
     .status-indicator {
@@ -209,12 +202,11 @@
       <img src="../logo.png" alt="Punishment Logo" class="logo" onerror="this.src='https://ui-avatars.com/api/?name=P&background=ff3b3b&color=fff'" />
     </div>
     <h1>Punishment</h1>
-    <p class="subtitle">Monitoramento em tempo real dos sistemas</p>
   </header>
 
   <div id="statusIndicator" class="status-indicator status-unknown">
     <div class="status-dot" id="statusDot" style="background-color: var(--unknown)"></div>
-    <span id="statusText">Verificando sistemas...</span>
+    <span id="statusText">Verificando...</span>
   </div>
 
   <main class="grid">
