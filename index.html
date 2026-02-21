@@ -112,6 +112,16 @@
       margin-bottom: 10px;
     }
 
+    .status a {
+      text-decoration: none;
+      font-weight: 600;
+      transition: opacity 0.2s ease;
+    }
+
+    .status a:hover {
+      opacity: 0.8;
+    }
+
     .status-dot {
       position: relative;
       width: 7px;
@@ -176,7 +186,9 @@
 
       <p class="status">
         <span class="status-dot" style="background-color: var(--unknown)"></span>
-        <span id="bot-text" style="color: var(--text-muted);">Verificando...</span>
+        <a href="../status">
+          <span id="bot-text" style="color: var(--text-muted);">Verificando...</span>
+        </a>
       </p>
     </div>
   </div>
