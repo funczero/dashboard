@@ -8,32 +8,21 @@
   <script src="https://unpkg.com/lucide@latest"></script>
 
   <style>
-    /* =========================================
-       1. VARIABLES (CSS Custom Properties)
-       ========================================= */
     :root {
-      /* Cores idênticas à página principal */
       --bg-dark: #0a0a0c;
       --bg-gradient: radial-gradient(circle at center, #111116 0%, #0a0a0c 100%);
       --primary-red: #ff3b3b;
       --primary-red-hover: #ff5c5c;
       --text-main: #ffffff;
       --text-muted: #a1a1aa;
-      
-      /* Cores de Status */
       --online: #43b581;
       --offline: #f04747;
       --unknown: #faa61a;
-      
-      /* Variáveis específicas para os cards de status */
       --card-bg: rgba(255, 255, 255, 0.02);
       --card-border: rgba(255, 255, 255, 0.05);
       --card-hover: rgba(255, 255, 255, 0.04);
     }
 
-    /* =========================================
-       2. RESET & BASE
-       ========================================= */
     * {
       margin: 0;
       padding: 0;
@@ -52,9 +41,6 @@
       padding: 60px 20px 20px 20px;
     }
 
-    /* =========================================
-       3. HEADER
-       ========================================= */
     .header {
       text-align: center;
       margin-bottom: 40px;
@@ -93,13 +79,10 @@
       margin: 0 auto;
     }
 
-    /* =========================================
-       4. STATUS BADGE
-       ========================================= */
     .status-indicator {
       display: flex;
       align-items: center;
-      gap: 12px;
+      gap: 10px;
       padding: 10px 24px;
       border-radius: 100px;
       background: var(--card-bg);
@@ -111,8 +94,8 @@
     }
 
     .status-dot {
-      width: 10px;
-      height: 10px;
+      width: 8px;
+      height: 8px;
       border-radius: 50%;
       position: relative;
     }
@@ -120,7 +103,7 @@
     .status-dot::after {
       content: "";
       position: absolute;
-      inset: -4px;
+      inset: -2px;
       border-radius: 50%;
       background-color: inherit;
       opacity: 0.4;
@@ -129,7 +112,7 @@
 
     @keyframes pulse-ring {
       0% { transform: scale(1); opacity: 0.5; }
-      70% { transform: scale(2.5); opacity: 0; }
+      70% { transform: scale(1.8); opacity: 0; }
       100% { transform: scale(1); opacity: 0; }
     }
 
@@ -137,9 +120,6 @@
     .status-offline     { color: var(--offline); border-color: rgba(240, 71, 71, 0.2); }
     .status-unknown     { color: var(--unknown); border-color: rgba(250, 166, 26, 0.2); }
 
-    /* =========================================
-       5. GRID & CARDS
-       ========================================= */
     .grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
@@ -161,7 +141,7 @@
 
     .card:hover {
       transform: translateY(-4px);
-      border-color: rgba(255, 59, 59, 0.3); /* Destaque sutil com a cor primária */
+      border-color: rgba(255, 59, 59, 0.3);
       background: var(--card-hover);
     }
 
@@ -190,9 +170,6 @@
       color: var(--text-main);
     }
 
-    /* =========================================
-       6. FOOTER
-       ========================================= */
     .footer {
       margin-top: auto;
       padding-top: 60px;
@@ -219,9 +196,6 @@
       color: var(--primary-red);
     }
 
-    /* =========================================
-       7. MEDIA QUERIES (Responsividade)
-       ========================================= */
     @media (max-width: 600px) {
       h1 { font-size: 2rem; }
       .grid { grid-template-columns: 1fr; }
@@ -286,34 +260,27 @@
   </footer>
 
   <script>
-    // Inicializa ícones Lucide
     lucide.createIcons();
 
-    // Função principal de busca de status
     async function fetchStatus() {
-      // Elementos do DOM
       const indicator = document.getElementById('statusIndicator');
       const statusText = document.getElementById('statusText');
       const dot = document.getElementById('statusDot');
       const apiStatusEl = document.getElementById('apiStatus');
 
       try {
-        // Busca os dados das APIs simultaneamente
         const [statusRes, guildsRes, usersRes] = await Promise.all([
           fetch('https://punbot.xyz/api/bot/status'),
           fetch('https://punbot.xyz/api/bot/guilds').catch(() => ({ json: () => [] })),
           fetch('https://punbot.xyz/api/bot/users').catch(() => ({ json: () => ({ total: 0 }) }))
         ]);
 
-        // Processa as respostas em JSON
         const statusData = await statusRes.json();
         const guildsData = await guildsRes.json();
         const usersData = await usersRes.json();
 
-        // Verifica se a API está online
         const isOnline = statusData.online === true || statusData.status === "online";
 
-        // Atualiza a interface baseada no status
         if (isOnline) {
           indicator.className = "status-indicator status-operational";
           statusText.textContent = "Sistemas Operacionais";
@@ -328,21 +295,18 @@
           apiStatusEl.style.color = "var(--offline)";
         }
 
-        // Atualiza contadores (Servidores e Usuários)
         const totalGuilds = Array.isArray(guildsData) ? guildsData.length : (guildsData.count || 0);
         document.getElementById('guilds').textContent = totalGuilds.toLocaleString('pt-BR');
 
         const totalUsers = usersData.total || usersData.users || 0;
         document.getElementById('users').textContent = totalUsers.toLocaleString('pt-BR');
 
-        // Atualiza o horário de verificação
         const now = new Date();
         const horas = now.getHours().toString().padStart(2, '0');
         const minutos = now.getMinutes().toString().padStart(2, '0');
         document.getElementById('updated').textContent = `Hoje às ${horas}:${minutos}`;
 
       } catch (error) {
-        // Tratamento de Erros de Conexão
         statusText.textContent = "Erro na conexão com a API";
         indicator.className = "status-indicator status-offline";
         dot.style.backgroundColor = "var(--offline)";
@@ -351,7 +315,6 @@
       }
     }
 
-    // Execução inicial e intervalo de atualização (a cada 30 segundos)
     fetchStatus();
     setInterval(fetchStatus, 30000);
   </script>
