@@ -11,7 +11,7 @@
 
   <style>
     :root {
-      --bg-dark: #050507; /* Tom ainda mais escuro para profundidade */
+      --bg-dark: #050507;
       --primary-red: #ef4444;
       --primary-red-hover: #dc2626;
       --text-main: #ffffff;
@@ -41,7 +41,6 @@
       position: relative;
     }
 
-    /* Efeitos de luz sutis no fundo para não ficar um preto chapado */
     .glow-orb {
       position: absolute;
       border-radius: 50%;
@@ -78,7 +77,6 @@
       to { opacity: 1; }
     }
 
-    /* Removido o quadrado (card) - agora os itens flutuam no centro */
     .content-wrapper {
       display: flex;
       flex-direction: column;
@@ -110,22 +108,21 @@
       max-width: 380px;
     }
 
-    /* Botões centralizados e limpos */
     .btn-group {
       display: flex;
       gap: 14px;
       justify-content: center;
       margin-bottom: 35px;
       width: 100%;
-      max-width: 350px;
+      max-width: 380px;
     }
 
     .btn {
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      gap: 8px;
-      padding: 14px 28px;
+      gap: 10px;
+      padding: 14px 24px;
       border-radius: 14px;
       text-decoration: none;
       font-weight: 600;
@@ -143,7 +140,7 @@
 
     .btn-primary:hover {
       background: var(--primary-red-hover);
-      transform: scale(1.03);
+      transform: translateY(-2px);
     }
 
     .btn-secondary {
@@ -154,10 +151,9 @@
 
     .btn-secondary:hover {
       background: rgba(255, 255, 255, 0.07);
-      transform: scale(1.03);
+      transform: translateY(-2px);
     }
 
-    /* Status minimalista */
     .status-container {
       display: inline-flex;
       align-items: center;
@@ -196,7 +192,6 @@
       100% { transform: scale(1); opacity: 0; }
     }
 
-    /* Rodapé */
     footer {
       position: absolute;
       bottom: 30px;
@@ -224,7 +219,6 @@
       color: var(--text-muted);
     }
 
-    /* Toast minimalista */
     .toast {
       position: fixed;
       bottom: 30px;
@@ -272,10 +266,19 @@
 
       <div class="btn-group">
         <a href="https://punbot.xyz/invite" class="btn btn-primary">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="12" y1="5" x2="12" y2="19"></line>
+            <line x1="5" y1="12" x2="19" y2="12"></line>
+          </svg>
           Me Adicione
         </a>
         
         <button onclick="showToast()" class="btn btn-secondary">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"></path>
+            <polyline points="10 17 15 12 10 7"></polyline>
+            <line x1="15" y1="12" x2="3" y2="12"></line>
+          </svg>
           Dashboard
         </button>
       </div>
